@@ -7,8 +7,8 @@ f = "day 11/day11.txt"
 with open(f,'r') as input:
     galaxy = [[x for x in row] for row in input.read().strip().split('\n')]
 
-print("Raw input:")
-pprint(galaxy)
+# print("Raw input:")
+# pprint(galaxy)
 
 def check_empty(g,transpose=False):
     if transpose:
@@ -18,10 +18,33 @@ def check_empty(g,transpose=False):
     row_to_insert = ["." for x in range(len(g[0]))]
     for i,row in enumerate(g):
         if all(r == "." for r in row):
-            empty_rows.append(i + len(empty_rows))
+            empty_rows.append(i + len(empty_rows)*1000000)
 
     for r in empty_rows:
-        g.insert(r,row_to_insert)
+        for i in range(1000000):
+            g.insert(r,row_to_insert)
+
+    if transpose:
+        print(f"Adding {len(empty_rows)} cols.")
+        g = [list(a) for a in zip(*g)]
+    else:
+        print(f"Adding {len(empty_rows)} rows.")
+    
+    return g
+
+def check_empty(g,transpose=False):
+    if transpose:
+        g = [list(a) for a in zip(*g)]
+
+    empty_rows = list()
+    row_to_insert = ["." for x in range(len(g[0]))]
+    for i,row in enumerate(g):
+        if all(r == "." for r in row):
+            empty_rows.append(i + len(empty_rows)*1000000)
+
+    for r in empty_rows:
+        for i in range(1000000):
+            g.insert(r,row_to_insert)
 
     if transpose:
         print(f"Adding {len(empty_rows)} cols.")
@@ -43,8 +66,8 @@ galaxy = check_empty(galaxy,transpose=True)
 galaxies = dict()
 # galaxies = list()
 n_galaxies = 1
-print("Expanded galaxy:")
-pprint(galaxy)
+# print("Expanded galaxy:")
+# pprint(galaxy)
 
 for i,row in enumerate(galaxy):
     for j,col in enumerate(row):
